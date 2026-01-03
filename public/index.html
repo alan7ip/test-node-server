@@ -2,32 +2,146 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mini Casino</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>H8E1 MiniApp</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-  <div class="app">
-    <div class="card">
-      <p class="h">💰 Баланс: <span id="balance">0</span></p>
-      <div class="small">Тестовый режим (потом подключим сервер и базу)</div>
-    </div>
+  <div class="bgGlow"></div>
 
-    <div class="card">
-      <p class="h">🎰 Игры</p>
-      <div class="row">
-        <button class="btn" onclick="coin()">🪙 Орёл / Решка</button>
+  <header class="top">
+    <div class="brand">
+      <div class="logo">H8</div>
+      <div>
+        <div class="title">H8E1 Game</div>
+        <div class="sub" id="subLine">Подключаемся...</div>
       </div>
     </div>
 
-    <div class="card">
-      <p class="h">🎁 Бонусы</p>
-      <div class="row">
-        <button class="btn btn2" onclick="daily()">📅 Ежедневка</button>
-      </div>
+    <div class="pill">
+      <span class="coin">🪙</span>
+      <span id="balance">0</span>
     </div>
-  </div>
+  </header>
+
+  <main class="screen">
+    <section class="card hero">
+      <div class="heroLeft">
+        <div class="h1">Казино (test coins)</div>
+        <div class="h2">Красиво, быстро, с анимацией. Всё как “реально”, но без реальных денег.</div>
+        <div class="row">
+          <button class="btn" id="btnOpenGames">🎰 Игры</button>
+          <button class="btn ghost" id="btnOpenShop">🛍 Магазин</button>
+        </div>
+      </div>
+      <div class="heroRight">
+        <div class="pulseOrb"></div>
+        <div class="spark s1"></div>
+        <div class="spark s2"></div>
+        <div class="spark s3"></div>
+      </div>
+    </section>
+
+    <section class="tabs">
+      <button class="tab active" data-tab="games">Игры</button>
+      <button class="tab" data-tab="bonus">Бонусы</button>
+      <button class="tab" data-tab="shop">Активы</button>
+      <button class="tab" data-tab="profile">Профиль</button>
+    </section>
+
+    <!-- GAMES -->
+    <section class="card panel" id="tab-games">
+      <div class="panelTitle">🎮 Игры</div>
+
+      <div class="gameGrid">
+        <div class="game">
+          <div class="gameTitle">🪙 Орёл / Решка</div>
+          <div class="gameSub">x2 если угадал</div>
+
+          <div class="betRow">
+            <input id="flipBet" class="inp" type="number" min="1" value="100" />
+            <button class="chip" data-chip="50">+50</button>
+            <button class="chip" data-chip="200">+200</button>
+            <button class="chip" data-chip="500">+500</button>
+          </div>
+
+          <div class="row">
+            <button class="btn" id="flipHeads">Орёл</button>
+            <button class="btn" id="flipTails">Решка</button>
+          </div>
+
+          <div class="resultBox" id="flipResult">
+            <div class="coinAnim" id="coinAnim">
+              <div class="coinFace">🪙</div>
+            </div>
+            <div class="resultText" id="flipText">Сделай ставку</div>
+          </div>
+        </div>
+
+        <div class="game">
+          <div class="gameTitle">🥤 Стаканчики</div>
+          <div class="gameSub">x3 если угадал</div>
+
+          <div class="betRow">
+            <input id="cupsBet" class="inp" type="number" min="1" value="100" />
+            <button class="chip" data-chip2="50">+50</button>
+            <button class="chip" data-chip2="200">+200</button>
+            <button class="chip" data-chip2="500">+500</button>
+          </div>
+
+          <div class="cups">
+            <button class="cup" data-pick="1">🥤 1</button>
+            <button class="cup" data-pick="2">🥤 2</button>
+            <button class="cup" data-pick="3">🥤 3</button>
+          </div>
+
+          <div class="resultBox" id="cupsResult">
+            <div class="cupsAnim" id="cupsAnim"></div>
+            <div class="resultText" id="cupsText">Выбери стаканчик</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BONUS -->
+    <section class="card panel hidden" id="tab-bonus">
+      <div class="panelTitle">🎁 Бонусы</div>
+      <div class="bonusBox">
+        <div class="big">Ежедневка</div>
+        <div class="small">Раз в 24 часа. Нажми — получишь монеты.</div>
+        <button class="btn" id="btnDaily">📅 Забрать</button>
+        <div class="small" id="dailyInfo"></div>
+      </div>
+    </section>
+
+    <!-- SHOP -->
+    <section class="card panel hidden" id="tab-shop">
+      <div class="panelTitle">🛍 Активы</div>
+      <div class="shopGrid" id="shopGrid"></div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="card panel hidden" id="tab-profile">
+      <div class="panelTitle">👤 Профиль</div>
+      <div class="profile">
+        <div><b>ID:</b> <span id="uid">-</span></div>
+        <div><b>Username:</b> <span id="uname">-</span></div>
+        <div><b>Инвентарь:</b></div>
+        <pre class="inv" id="inv">{}</pre>
+
+        <div class="row">
+          <button class="btn ghost" id="btnAdmin" style="display:none">🛠 Админ-панель</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div class="tiny">H8E1 • test coins • v1</div>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast"></div>
 
   <script src="app.js"></script>
 </body>
