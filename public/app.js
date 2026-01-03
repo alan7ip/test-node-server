@@ -1,43 +1,41 @@
-const tg = window.Telegram.WebApp;
-tg.expand();
+const tg = window.Telegram?.WebApp;
 
-const userId = tg.initDataUnsafe?.user?.id || "test";
-
-const log = (text) => {
-  document.getElementById("log").innerText = text;
-};
-
-async function api(action) {
-  const res = await fetch("/api/" + action, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId })
-  });
-  return res.json();
+if (tg) {
+  tg.ready();
+  tg.expand();
 }
 
-async function updateBalance() {
-  const data = await api("balance");
-  document.getElementById("balance").innerText =
-    "Баланс: " + data.balance;
+let balance = 1000;
+
+function render() {
+  document.getElementById("balance").textContent = balance;
 }
 
-async function playCoin() {
-  const data = await api("coin");
-  log(data.text);
-  updateBalance();
+function coin() {
+  const bet = 50;
+  if (balance < bet) return alert("Недостаточно средств");
+  balance -= bet;
+
+  const win = Math.random() < 0.49; // честно: чуть меньше 50/50
+  if (win) balance += bet * 2;
+
+  render();
+  alert(win ? `✅ Победа! +${bet}` : `❌ Проигрыш! -${bet}`);
 }
 
-async function daily() {
-  const data = await api("daily");
-  log(data.text);
-  updateBalance();
+function daily() {
+  const key = "daily_claimed";
+  const today = new Date().toDateString();
+  if (localStorage.getItem(key) === today) return alert("Ежедневка уже забрана");
+
+  const reward = 200;
+  balance += reward;
+  localStorage.setItem(key, today);
+  render();
+  alert(`🎁 Ежедневка: +${reward}`);
 }
 
-async function work() {
-  const data = await api("work");
-  log(data.text);
-  updateBalance();
-}
+window.coin = coin;
+window.daily = daily;
 
-updateBalance();
+render();
