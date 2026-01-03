@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin • H8E1</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="bgGlow"></div>
+  <header class="top">
+    <div class="brand">
+      <div class="logo">🛠</div>
+      <div>
+        <div class="title">Admin Panel</div>
+        <div class="sub" id="adminSub">Проверка...</div>
+      </div>
+    </div>
+    <button class="btn ghost" onclick="location.href='/'">← Назад</button>
+  </header>
+
+  <main class="screen">
+    <section class="card panel">
+      <div class="panelTitle">⚙️ Управление балансом</div>
+      <div class="betRow">
+        <input id="userId" class="inp" placeholder="userId" />
+        <input id="delta" class="inp" placeholder="delta (+/-)" />
+        <button class="btn" id="btnApply">Применить</button>
+      </div>
+      <div class="small" id="applyInfo"></div>
+    </section>
+
+    <section class="card panel">
+      <div class="panelTitle">📈 Статистика</div>
+      <button class="btn" id="btnStats">Обновить</button>
+      <pre class="inv" id="stats">{}</pre>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="admin.js"></script>
+</body>
+</html>
