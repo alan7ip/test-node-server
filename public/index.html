@@ -1,23 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <title>Mini App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Casino</title>
+  <link rel="stylesheet" href="style.css" />
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <div class="app">
-    <h1>🎮 Игровой бот</h1>
+    <div class="card">
+      <p class="h">💰 Баланс: <span id="balance">0</span></p>
+      <div class="small">Тестовый режим (потом подключим сервер и базу)</div>
+    </div>
 
-    <div id="balance">Баланс: ...</div>
+    <div class="card">
+      <p class="h">🎰 Игры</p>
+      <div class="row">
+        <button class="btn" onclick="coin()">🪙 Орёл / Решка</button>
+      </div>
+    </div>
 
-    <button onclick="playCoin()">🪙 Орёл / Решка</button>
-    <button onclick="daily()">🎁 Ежедневка</button>
-    <button onclick="work()">💼 Работа</button>
-
-    <div id="log"></div>
+    <div class="card">
+      <p class="h">🎁 Бонусы</p>
+      <div class="row">
+        <button class="btn btn2" onclick="daily()">📅 Ежедневка</button>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
