@@ -1,12 +1,11 @@
 {
-  "name": "test-node-server",
+  "name": "h8e1-server",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "node-fetch": "^2.6.7"
+    "express": "^4.18.2"
   }
 }
