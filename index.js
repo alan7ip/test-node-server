@@ -1,63 +1,38 @@
 const express = require("express");
+const fetch = require("node-fetch");
+
 const app = express();
-
-const PORT = process.env.PORT || 3000;
-const BOT_TOKEN = process.env.BOT_TOKEN; // токен зададим в Render Environment
-
-// 1) ЛОГИ: чтобы видеть любые входящие запросы (очень важно)
-app.use((req, res, next) => {
-  console.log("INCOMING:", req.method, req.url);
-  next();
-});
-
-// 2) Telegram присылает JSON -> обязательно
 app.use(express.json());
 
-// 3) Проверка, что сервер жив (открывай в браузере)
+const PORT = process.env.PORT || 3000;
+const BOT_TOKEN = process.env.BOT_TOKEN;
+
+// Проверка, что сервер жив
 app.get("/", (req, res) => {
-  res.status(200).send("OK. Server is running ✅");
+  res.send("Server is running 🚀");
 });
 
-// 4) Webhook endpoint (сюда будет стучаться Telegram)
-app.post("/webhook", (req, res) => {
-  // Telegram ждёт ответ 200 быстро, иначе будет ретраи
-  res.sendStatus(200);
+// Webhook от Telegram
+app.post("/webhook", async (req, res) => {
+  console.log("UPDATE FROM TELEGRAM:");
+  console.log(JSON.stringify(req.body, null, 2));
 
-  // Покажем, что реально пришло
-  console.log("WEBHOOK UPDATE:", JSON.stringify(req.body, null, 2));
+  const message = req.body.message;
 
-  // Если хочешь, чтобы бот отвечал на сообщения:
-  // (работает, когда пользователь пишет твоему боту обычный текст)
-  try {
-    if (!BOT_TOKEN) {
-      console.log("BOT_TOKEN is missing in environment!");
-      return;
-    }
+  if (message && message.text === "/start") {
+    const chatId = message.chat.id;
 
-    const message = req.body?.message;
-    const chatId = message?.chat?.id;
-    const text = message?.text;
-
-    if (chatId && text) {
-      // простейший ответ
-      const replyText = `Ты написал: ${text}`;
-
-      // Отправка сообщения через Telegram API
-      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: replyText,
-        }),
-      })
-        .then((r) => r.json())
-        .then((data) => console.log("sendMessage result:", data))
-        .catch((err) => console.log("sendMessage error:", err));
-    }
-  } catch (e) {
-    console.log("ERROR in webhook handler:", e);
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: "✅ Бот подключён и работает через webhook!",
+      }),
+    });
   }
+
+  res.sendStatus(200);
 });
 
 app.listen(PORT, () => {
