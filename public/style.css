@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  padding: 20px;
+  max-width: 400px;
+  margin: auto;
+}
+
+button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 15px;
+  font-size: 16px;
+  background: #1e1e1e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+}
+
+button:hover {
+  background: #333;
+}
+
+#balance {
+  margin: 15px 0;
+  font-size: 18px;
+}
+
+#log {
+  margin-top: 20px;
+  font-size: 14px;
+  opacity: 0.8;
+}
